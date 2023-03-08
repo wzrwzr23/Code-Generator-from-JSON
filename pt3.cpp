@@ -156,7 +156,7 @@ int getHeaderClassVisNum(int classNum, string fileEdit, string classVis)
         }
     }
     edit.close();
-    return count + 1;
+    return count;
 }
 
 string getLineToWrite(string fileToWrite)
@@ -209,27 +209,48 @@ void writeH(int numToWrite, string lineToWrite, string fileToWrite)
 pair<string, string> getMethod(string fileIn)
 {
     ifstream input;
-    bool count = false;
+    ifstream methodNameIn;
+    ofstream methodNameOut;
+    int count = 0;
     string str;
     string type;
     string name;
+    string end;
     input.open(fileIn);
+    methodNameOut.open("tempName.txt");
     getline(input, str);
+
     istringstream iss(str);
     while (iss)
     {
-        if (!count)
+        if (count == 0)
         {
             iss >> type;
-            count = true;
+            count++;
         }
         else
         {
             iss >> name;
+            /*method name end*/
+            if(name.find(")") != string::npos){
+                methodNameOut << " " << name << endl;
+                break;
+            }
+            /*method continue parsing*/
+            else{
+                methodNameOut << name;
+                continue;
+            }
         }
     }
+    methodNameOut.close();
+    methodNameIn.open("tempName.txt");
+    getline(methodNameIn, end);
     input.close();
-    return make_pair(type, name);
+    methodNameIn.close();
+    cout << type << " " << end << endl;
+    remove("tempName.txt");
+    return make_pair(type, end);
 }
 
 int getMainNum(string fileIn)
@@ -332,7 +353,6 @@ void delMethod(string txtFile, int methodStop){
             count++;
             continue;
         }else{
-            cout<<str<<endl;
             temp << str << endl;
             continue;
         }
@@ -365,5 +385,5 @@ int main()
         writeCPP(tempFile, cppFile, method.first, x.first, method.second, mainNum, methodStop);
         delMethod(tempFile, methodStop);
     }
-    // remove("temp.txt");
+    remove("temp.txt");
 }

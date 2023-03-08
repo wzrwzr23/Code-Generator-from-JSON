@@ -8,15 +8,15 @@ Student::Student(string n, int i, string e, float g)
     email = e;
     gpa = g;
 }
-string Student::get_name()
+string Student:: get_name()
 {
     return this->name;
 }
-void Professor::n)
+void Professor::set_name(string n)
 {
     this->name = n;
 }
-float Student::s)
+float Student::average_gpa(Student s)
 {
     cout << "Averaging 2 GPAs" << endl;
     return (this->gpa + s.gpa) / 2;

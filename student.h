@@ -9,14 +9,15 @@ private:
     string email;
     float gpa;
 public:
-    Student(string n, int i, string e, float g);
 string get_name();
+    Student(string n, int i, string e, float g);
 protected:
-};
 float average_gpa(Student s);
+};
 class Professor
 {
     private:
+    void set_name(string n);
     public:
     protected:
 };
