@@ -233,12 +233,12 @@ pair<string, string> getMethod(string fileIn)
             iss >> name;
             /*method name end*/
             if(name.find(")") != string::npos){
-                methodNameOut << " " << name << endl;
+                methodNameOut << name << endl;
                 break;
             }
             /*method continue parsing*/
             else{
-                methodNameOut << name;
+                methodNameOut << name << " ";
                 continue;
             }
         }
@@ -248,7 +248,7 @@ pair<string, string> getMethod(string fileIn)
     getline(methodNameIn, end);
     input.close();
     methodNameIn.close();
-    cout << type << " " << end << endl;
+    // cout << type << " " << end << endl;
     remove("tempName.txt");
     return make_pair(type, end);
 }

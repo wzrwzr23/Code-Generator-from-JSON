@@ -8,7 +8,7 @@ Student::Student(string n, int i, string e, float g)
     email = e;
     gpa = g;
 }
-string Student:: get_name()
+string Student::get_name()
 {
     return this->name;
 }

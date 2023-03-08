@@ -17,7 +17,6 @@ float average_gpa(Student s);
 class Professor
 {
     private:
-    void set_name(string n);
     public:
     protected:
 };
