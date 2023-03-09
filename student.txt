@@ -6,7 +6,7 @@ string get_name()
     return this->name;
 }
 ######
-Professor – private
+Professor - private
 ######
 void set_name(string n)
 {

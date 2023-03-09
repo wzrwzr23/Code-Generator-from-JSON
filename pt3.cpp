@@ -4,12 +4,12 @@
 #include <string>
 using namespace std;
 
-void copyOrigFile(string origFile, string tempFile){
+void copyOrigFile(string origFile){
     ifstream orig;
     ofstream temp;
     string str;
     orig.open(origFile);
-    temp.open(tempFile);
+    temp.open("temp.txt");
     while (getline(orig, str))
     {
         temp << str << endl;
@@ -26,7 +26,7 @@ int getMethodNum(string origFile)
     txt.open(origFile);
     while (getline(txt, str))
     {
-        if (str == "######")
+        if (str.find("######") != string::npos)
         {
             count++;
         }
@@ -35,7 +35,7 @@ int getMethodNum(string origFile)
     return count / 2;
 }
 
-pair<string, string> getClass(string fileName)
+pair<string, string> getClass()
 {
     ifstream input;
 
@@ -45,7 +45,7 @@ pair<string, string> getClass(string fileName)
     string iter;
     int count = 0;
     bool read = false;
-    input.open(fileName);
+    input.open("temp.txt");
 
     if (!input)
     {
@@ -92,13 +92,13 @@ pair<string, string> getClass(string fileName)
     return make_pair(cls, vis);
 }
 
-void delHead(string fileIn)
+void delHead()
 {
     string str;
     int count = 0;
     ifstream input;
     ofstream newCopy;
-    input.open(fileIn);
+    input.open("temp.txt");
     newCopy.open("tempOut.txt");
 
     while (getline(input, str))
@@ -111,7 +111,7 @@ void delHead(string fileIn)
     }
     input.close();
     newCopy.close();
-    rename("tempOut.txt", fileIn.c_str());
+    rename("tempOut.txt", "temp.txt");
 }
 
 int getHeaderClassNum(string fileEdit, string classEdit)
@@ -124,8 +124,9 @@ int getHeaderClassNum(string fileEdit, string classEdit)
     edit.open(fileEdit);
     while (getline(edit, str))
     {
-        if (str == "class " + classEdit)
+        if (str.find("class " + classEdit)!=string::npos)
         {
+            cout << "class line " << str << " at number "<< count <<endl;
             break;
         }
         else
@@ -146,8 +147,9 @@ int getHeaderClassVisNum(int classNum, string fileEdit, string classVis)
     edit.open(fileEdit);
     while (getline(edit, str))
     {
-        if (str == classVis + ":" && count > classNum)
+        if (str.find(classVis + ":")!=string::npos && count > classNum)
         {
+            cout << "class visibility line " << str << " at number "<< count <<endl;
             break;
         }
         else
@@ -155,15 +157,16 @@ int getHeaderClassVisNum(int classNum, string fileEdit, string classVis)
             count++;
         }
     }
+    cout << "end of file, line number: " << count << endl;
     edit.close();
     return count;
 }
 
-string getLineToWrite(string fileToWrite)
+string getLineToWrite()
 {
     ifstream input;
     string name;
-    input.open(fileToWrite);
+    input.open("temp.txt");
     getline(input, name);
     input.close();
     return name;
@@ -206,7 +209,7 @@ void writeH(int numToWrite, string lineToWrite, string fileToWrite)
     rename("temp.h", fileToWrite.c_str());
 }
 
-pair<string, string> getMethod(string fileIn)
+pair<string, string> getMethod()
 {
     ifstream input;
     ifstream methodNameIn;
@@ -216,7 +219,7 @@ pair<string, string> getMethod(string fileIn)
     string type;
     string name;
     string end;
-    input.open(fileIn);
+    input.open("temp.txt");
     methodNameOut.open("tempName.txt");
     getline(input, str);
 
@@ -248,7 +251,6 @@ pair<string, string> getMethod(string fileIn)
     getline(methodNameIn, end);
     input.close();
     methodNameIn.close();
-    // cout << type << " " << end << endl;
     remove("tempName.txt");
     return make_pair(type, end);
 }
@@ -274,12 +276,12 @@ int getMainNum(string fileIn)
     return mainNum;
 }
 
-int getMethodStop(string txtFile)
+int getMethodStop()
 {
     int methodStop = 0;
     ifstream txt;
     string str;
-    txt.open(txtFile);
+    txt.open("temp.txt");
     while (getline(txt, str))
     {
         if (str != "}")
@@ -296,7 +298,7 @@ int getMethodStop(string txtFile)
     return methodStop;
 }
 
-void writeCPP(string txtFile, string fileEdit, string methodType, string methodClass, string methodName, int mainNum, int methodStop)
+void writeCPP(string fileEdit, string methodType, string methodClass, string methodName, int mainNum, int methodStop)
 {
     ifstream edit;
     ifstream txt;
@@ -306,7 +308,7 @@ void writeCPP(string txtFile, string fileEdit, string methodType, string methodC
     int count = 0;
     edit.open(fileEdit);
     temp.open("temp.cpp");
-    txt.open(txtFile);
+    txt.open("temp.txt");
     getline(txt, toWrite);
     while (getline(edit, str))
     {
@@ -341,12 +343,12 @@ void writeCPP(string txtFile, string fileEdit, string methodType, string methodC
     rename("temp.cpp", "student.cpp");
 }
 
-void delMethod(string txtFile, int methodStop){
+void delMethod(int methodStop){
     ifstream txt;
     string str;
     ofstream temp;
     int count = 0;
-    txt.open(txtFile);
+    txt.open("temp.txt");
     temp.open("tempOut.txt");
     while (getline(txt, str)){
         if (count<= methodStop){
@@ -359,7 +361,11 @@ void delMethod(string txtFile, int methodStop){
     }
     txt.close();
     temp.close();
-    rename("tempOut.txt", txtFile.c_str());
+    rename("tempOut.txt", "temp.txt");
+}
+
+void removeTemp(){
+    remove("temp.txt");
 }
 
 int main()
@@ -367,23 +373,28 @@ int main()
     string origFile = "student.txt";
     string headerFile = "student.h";
     string cppFile = "student.cpp";
-    string tempFile = "temp.txt";
-    copyOrigFile(origFile, tempFile);
+
     int methodNum = getMethodNum(origFile);
+    copyOrigFile(origFile);
 
     for (int i = 0; i < methodNum; i++)
     {
-        pair<string, string> x = getClass(tempFile);
-        delHead(tempFile);
+        pair<string, string> x = getClass();
+        cout << x.first << "------" << x.second << endl;
+        delHead();
+        
         int cNum = getHeaderClassNum(headerFile, x.first);
         int vNum = getHeaderClassVisNum(cNum, headerFile, x.second);
-        string methodName = getLineToWrite(tempFile);
+        string methodName = getLineToWrite();
+        cout << methodName << endl;
         writeH(vNum, methodName, headerFile);
-        pair<string, string> method = getMethod(tempFile);
+        
+        pair<string, string> method = getMethod();
         int mainNum = getMainNum(cppFile);
-        int methodStop = getMethodStop(tempFile);
-        writeCPP(tempFile, cppFile, method.first, x.first, method.second, mainNum, methodStop);
-        delMethod(tempFile, methodStop);
+        int methodStop = getMethodStop();
+        writeCPP(cppFile, method.first, x.first, method.second, mainNum, methodStop);
+        delMethod(methodStop);
     }
-    remove("temp.txt");
+
+    removeTemp();
 }
