@@ -368,11 +368,20 @@ void removeTemp(){
     remove("temp.txt");
 }
 
+string getTXT(){
+    string txtName;
+    cout << "Please put txt file under the same folder, and enter its name:(without '.txt') ";
+    cin >> txtName;
+    cout << "Got it! Thank you:)"<<endl;
+    return txtName;
+}
+
 int main()
 {
-    string origFile = "student.txt";
-    string headerFile = "student.h";
-    string cppFile = "student.cpp";
+    string name = getTXT();
+    string origFile = name +".txt";
+    string headerFile = name +".h";
+    string cppFile = name + ".cpp";
 
     int methodNum = getMethodNum(origFile);
     copyOrigFile(origFile);
