@@ -5,17 +5,20 @@
 
 
 int main() {
-	
-    FILE*inputCsv=fopen("C:\\Users\\Josiah\\Documents\\Book3.csv", "r");
-    FILE*output=fopen("C:\\Users\\Josiah\\Documents\\InJSON.json", "w");
+	FILE*inputCsv;
+	char filepath[1000];
+	printf("Enter path:");
+	scanf("%s", filepath);//asks user to input filepath, opens intended file
+
+	inputCsv=fopen(filepath, "r");
+    FILE*output=fopen("C:\\Users\\Josiah\\Documents\\tnJSON.json", "w");
 	if (inputCsv == NULL) 
 	
 	{
-        printf("Error: Unable to open CSV file.");
+        printf("Error: Unable to open CSV file.");//throw error if path does not exist
         return 1;
     }
-    printf("Test");
-	fputs("Test", output);
+
     char row[lenrow];
     char *column;
     char *columns[100];
@@ -27,7 +30,7 @@ int main() {
         if (fgets(row, lenrow, inputCsv))
 		
 		 {
-        // Parse the column names from the first row
+        // Get the column names from the first row
         column = strtok(row, ",");
         while (column != NULL) 
 		
@@ -65,7 +68,7 @@ int main() {
 		
 		{
 			
-            printf("    \"%s\": \"%s\"", column_names[i+1], columns[i]);
+            printf("    \"%s\": \"%s\"", column_names[i+1], columns[i]);//print header:value
             fputs("\n", output);
             fputs("    ", output);
             fputs(column_names[i+1], output);
@@ -86,7 +89,7 @@ int main() {
         if (!feof(inputCsv))
 		
 		 {
-            printf(",");
+            printf(",");//adds comma if end of file not reached
         }
         
 		printf("\n");
@@ -94,9 +97,10 @@ int main() {
     
     
     printf("]\n");
-    fputs("]\n", output);
+    fputs("\n]\n", output);
 
+
+    
     fclose(inputCsv);
     return 0;
 }
-
