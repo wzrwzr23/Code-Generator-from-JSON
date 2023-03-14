@@ -11,6 +11,7 @@ struct ClassStruct
 
 string defType(string str);
 string extract(string str);
+string getJsonPath();
 vector<ClassStruct> unionVector(vector<ClassStruct> a, vector<ClassStruct> b);
 vector<vector<ClassStruct>> enumerationHelper(vector<ClassStruct> v);
 vector<vector<ClassStruct>> enumeration(vector<ClassStruct> v);
