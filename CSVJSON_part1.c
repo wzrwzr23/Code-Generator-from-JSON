@@ -74,7 +74,7 @@ int main() {
 
 		    if (i < num_columns - 1)
 
-				{
+		    {
 			printf(",");
 		    }
 
