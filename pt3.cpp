@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include "pt3.h"
 using namespace std;
 
 void copyOrigFile(string origFile){
@@ -126,7 +127,7 @@ int getHeaderClassNum(string fileEdit, string classEdit)
     {
         if (str.find("class " + classEdit)!=string::npos)
         {
-            cout << "class line " << str << " at number "<< count <<endl;
+            // cout << "class line " << str << " at number "<< count <<endl;
             break;
         }
         else
@@ -157,7 +158,7 @@ int getHeaderClassVisNum(int classNum, string fileEdit, string classVis)
             count++;
         }
     }
-    cout << "end of file, line number: " << count << endl;
+    // cout << "end of file, line number: " << count << endl;
     edit.close();
     return count;
 }
@@ -389,13 +390,13 @@ int main()
     for (int i = 0; i < methodNum; i++)
     {
         pair<string, string> x = getClass();
-        cout << x.first << "------" << x.second << endl;
+        // cout << x.first << "------" << x.second << endl;
         delHead();
         
         int cNum = getHeaderClassNum(headerFile, x.first);
         int vNum = getHeaderClassVisNum(cNum, headerFile, x.second);
         string methodName = getLineToWrite();
-        cout << methodName << endl;
+        // cout << methodName << endl;
         writeH(vNum, methodName, headerFile);
         
         pair<string, string> method = getMethod();
