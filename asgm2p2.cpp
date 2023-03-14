@@ -42,6 +42,13 @@ string extract(string str){
     return str;
 }
 
+string getJsonPath(){
+    string path;
+    cout << "Please enter the json file path (with .json): ";
+    cin >> path;
+    return path;
+}
+
 vector<ClassStruct> unionVector(vector<ClassStruct> a, vector<ClassStruct> b){
     if (a.size() == 0){
         return b;
@@ -339,7 +346,7 @@ int main() {
     ifstream ifs;
     ifs.open("student.json",ios::in) ;
     if (!ifs.is_open()) {
-        cout << "open failed" << endl;
+        cout << "Json file open failed" << endl;
         return 0;
     }
 
