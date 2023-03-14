@@ -4,12 +4,8 @@
 #include <list>
 #include <algorithm>
 #include <map>
+#include "asgm2p2.h"
 using namespace std;
-
-typedef struct {
-    string field;
-    string type;
-} ClassStruct;
 
 string defType(string str){
     int index = str.find_first_of(":") + 2;
@@ -93,7 +89,7 @@ vector<vector<ClassStruct>> enumeration(vector<ClassStruct> v){
     if (vSize <= 1){
         return csVecVec;
     }
-    cout<<"----2\n";
+
     /* add single member, prevent dupication*/ 
     csVecVec.push_back({v[0]}); /* push the first element*/ 
     for (int i=1; i<vSize; i++){ /* go through the rest */ 
@@ -148,7 +144,6 @@ vector<vector<ClassStruct>> enumeration(vector<ClassStruct> v){
         return csVecVec;
     }
 
-    cout<<"----3\n";
     if (vSize == 4 && !dup){
         csVecVec.push_back({v[1], v[2], v[3]});
         csVecVec.push_back({v[1], v[2], v[0]});
@@ -259,7 +254,6 @@ vector<vector<ClassStruct>> enumeration(vector<ClassStruct> v){
         }
         return csVecVec;
     }
-    cout<<"----4\n";
     return csVecVec;
 }
 
