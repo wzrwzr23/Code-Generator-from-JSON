@@ -11,7 +11,7 @@ int main() {
 	scanf("%s", filepath);//asks user to input filepath, opens intended file
 
 	inputCsv=fopen(filepath, "r");
-        FILE*output=fopen("C:\\Users\\Josiah\\Documents\\tnJSON.json", "w");
+        FILE*output=fopen("C:\\Users\\Josiah\\Documents\\tnJSON.json", "w");//path to store json file
 	if (inputCsv == NULL) 
 	
 	{
